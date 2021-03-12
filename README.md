@@ -1,3 +1,4 @@
+Provides a Vercel serverless function for micropub -> Hugo markdown
 ## Getting Started
 You can fork this repo and adjust the following settings in `config.json`:
 - ghUser --> your github username
