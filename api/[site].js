@@ -16,7 +16,7 @@ async function pubHandler(req, res) {
   const { site } = req.query;
   const application = config.sites.find(
     (configuredSite) => Object.keys(configuredSite)[0] === site
-  );
+  )[site];
   const contentType = req.headers["content-type"];
   console.log({ contentType, body: req.body, query: req.query });
   const authorizationHeader = req.headers["authorization"];
@@ -58,7 +58,6 @@ async function pubHandler(req, res) {
         publishToGH(res, fields, application);
       });
     } else {
-      console.log("Sending this application object -->", application);
       publishToGH(res, req.body, application);
     }
   } catch (e) {
@@ -79,7 +78,6 @@ function matchScope(scope) {
 }
 
 async function publishToGH(res, fields, application) {
-  console.log(application);
   const compiledContent = compileContent(fields);
   const publishPath = getPublishPath(fields);
   console.log(
