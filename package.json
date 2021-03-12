@@ -3,9 +3,7 @@
   "version": "0.0.1",
   "description": "Vercel serverless function for micropub",
   "main": "index.js",
-  "type": "module",
   "author": "taylor <taylor@teukka.com>",
-  "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "multer": "^1.4.2"

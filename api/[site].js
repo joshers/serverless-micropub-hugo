@@ -1,6 +1,6 @@
-import multer from "multer";
-import axios from "axios";
-import qs from "querystring";
+const multer = require("multer");
+const axios = require("axios");
+const qs = require("querystring");
 
 const upload = multer();
 const config = require("../config.json");
