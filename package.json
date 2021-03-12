@@ -6,6 +6,9 @@
   "author": "taylor <taylor@teukka.com>",
   "dependencies": {
     "axios": "^0.21.1",
-    "multer": "^1.4.2"
+    "multiparty": "^4.2.2"
+  },
+  "devDependencies": {
+    "vercel": "^21.3.3"
   }
 }

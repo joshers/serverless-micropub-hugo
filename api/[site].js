@@ -1,13 +1,15 @@
-const multer = require("multer");
+const multiparty = require("multiparty");
 const axios = require("axios");
 const qs = require("querystring");
+const compileContent = require("../compileContent");
 
-const upload = multer();
 const config = require("../config.json");
 
 async function pubHandler(req, res) {
+  const contentType = req.headers["content-type"];
+  console.log({ contentType, body: req.body });
   const token =
-    req.headers["Authorization"].split(" ")[1] || req.body.access_token;
+    req.headers["authorization"].split(" ")[1] || req.body.access_token;
   if (!token) {
     res.sendStatus(401);
   }
@@ -22,12 +24,22 @@ async function pubHandler(req, res) {
   if (!me || !scope) {
     res.status(401).send("Invalid Token");
   }
-  // const { h } = request.body;
-  console.log(request.body);
-  // only support h-entry types for now
-  // if (h === "entry") {
-
-  // }
+  if (contentType.includes("multipart/form-data")) {
+    const form = new multiparty.Form();
+    form.parse(req, (err, fields, files) => {
+      const compiledContent = compileContent(fields);
+      console.log(compiledContent);
+      res.writeHead(200, { "Content-Type": "text/plain" });
+      res.write("ok");
+      res.end();
+    });
+  } else {
+    const compiledContent = compileContent(req.body);
+    console.log(compiledContent);
+    res.writeHead(200, { "Content-Type": "text/plain" });
+    res.write("ok");
+    res.end();
+  }
 }
 
-module.exports = upload.array()(pubHandler);
+module.exports = pubHandler;
