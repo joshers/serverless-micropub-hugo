@@ -58,6 +58,7 @@ async function pubHandler(req, res) {
         publishToGH(res, fields, application);
       });
     } else {
+      console.log("Sending this application object -->", application);
       publishToGH(res, req.body, application);
     }
   } catch (e) {
@@ -78,6 +79,7 @@ function matchScope(scope) {
 }
 
 async function publishToGH(res, fields, application) {
+  console.log(application);
   const compiledContent = compileContent(fields);
   const publishPath = getPublishPath(fields);
   console.log(
