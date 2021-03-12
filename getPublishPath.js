@@ -3,12 +3,12 @@ import { generateSlug } from "./compileContent.js";
 function getPublishPath(fields) {
   const slug = generateSlug(fields);
   if (fields["bookmark-of"]) {
-    return `/bookmarks/${slug}`;
+    return `content/bookmarks/${slug}`;
   }
   if (fields.body) {
-    return `/posts/${slug}`;
+    return `content/posts/${slug}`;
   }
-  return `/updates/${slug}`;
+  return `content/updates/${slug}`;
 }
 
 module.exports = getPublishPath;
