@@ -40,6 +40,7 @@ function renderOptionalFields(fields) {
     "category[]",
     "name",
     "slug",
+    "h",
     "title",
     "content",
   ];
@@ -47,7 +48,7 @@ function renderOptionalFields(fields) {
     delete fields[field];
   });
   return Object.entries(fields)
-    .map(([key, value]) => `${key}: ${value || ""}`)
+    .map(([key, value]) => `${key}: "${value || ""}"`)
     .join("\n");
 }
 

@@ -86,7 +86,7 @@ async function publishToGH(res, fields, application) {
     application.branch
   );
   const result = await publisher.publish(publishPath, compiledContent, {
-    message: "Micropub auto publish",
+    message: "🤖 Micropub bot auto publish",
   });
   if (result) {
     res.send("ok");
