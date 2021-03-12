@@ -80,13 +80,24 @@ function matchScope(scope) {
 async function publishToGH(res, fields, application) {
   const compiledContent = compileContent(fields);
   const publishPath = getPublishPath(fields);
+  console.log(
+    "Found--> " +
+      config.ghUser +
+      "/" +
+      application.repo +
+      "/" +
+      applation.branch +
+      "\n"
+  );
   const publisher = new GitHubPublisher(
     process.env.GITHUB_TOKEN,
     config.ghUser,
     application.repo,
     application.branch
   );
-  const result = await publisher.publish(publishPath, compiledContent);
+  const result = await publisher.publish(publishPath, compiledContent, {
+    message: "Micropub auto publish",
+  });
   if (result) {
     res.status(200).send("ok");
     return;
