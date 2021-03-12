@@ -6,6 +6,7 @@
   "author": "taylor <taylor@teukka.com>",
   "dependencies": {
     "axios": "^0.21.1",
+    "github-publish": "^3.0.0",
     "multiparty": "^4.2.2"
   },
   "devDependencies": {

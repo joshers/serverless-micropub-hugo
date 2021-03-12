@@ -1,8 +1,10 @@
 const multiparty = require("multiparty");
 const axios = require("axios");
 const qs = require("querystring");
-const compileContent = require("../compileContent");
+const { compileContent } = require("../compileContent");
 const respondUnauthorized = require("../respondUnauthorized");
+const getPublishPath = require("../getPublishPath");
+const GitHubPublisher = require("github-publish");
 
 const config = require("../config.json");
 
@@ -53,13 +55,10 @@ async function pubHandler(req, res) {
           res.status(500).send(err);
           return;
         }
-        const compiledContent = compileContent(fields);
-        res.status(200).send("ok");
-        return;
+        publishToGH(res, fields, application);
       });
     } else {
-      const compiledContent = compileContent(req.body);
-      res.status(200).send("ok");
+      publishToGH(res, req.body, application);
     }
   } catch (e) {
     console.log("Error fetching token info");
@@ -76,6 +75,24 @@ function matchScope(scope) {
     if (!requiredScope.find((required) => required === scope)) matched = false;
   });
   return matched;
+}
+
+async function publishToGH(res, fields, application) {
+  const compiledContent = compileContent(fields);
+  const publishPath = getPublishPath(fields);
+  const publisher = new GitHubPublisher(
+    process.env.GITHUB_TOKEN,
+    config.ghUser,
+    application.repo,
+    application.branch
+  );
+  const result = await publisher.publish(publishPath, compiledContent);
+  if (result) {
+    res.status(200).send("ok");
+    return;
+  } else {
+    res.status(400).send("Could not add file to GH");
+  }
 }
 
 module.exports = pubHandler;

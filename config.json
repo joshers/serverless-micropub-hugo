@@ -1,10 +1,13 @@
 {
   "tokenValidationEndpoint": "https://tokens.indieauth.com/token",
+  "ghUser": "jamestthompson3",
   "sites": [
     {
       "main": {
         "homepage": "https://teukka.tech",
-        "appName": "teukka.tech micropub"
+        "appName": "teukka.tech micropub",
+        "repo": "dank",
+        "branch": "micropub"
       }
     }
   ]

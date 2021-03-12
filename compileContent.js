@@ -51,4 +51,4 @@ function renderOptionalFields(fields) {
     .join("\n");
 }
 
-module.exports = compileContent;
+module.exports = { compileContent, generateSlug };
