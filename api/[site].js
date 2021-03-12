@@ -7,6 +7,10 @@ const respondUnauthorized = require("../respondUnauthorized");
 const config = require("../config.json");
 
 async function pubHandler(req, res) {
+  if (req.method === "GET") {
+    res.status(200).send("ok");
+    return;
+  }
   const { site } = req.query;
   const application = config.sites.find(
     (configuredSite) => Object.keys(configuredSite)[0] === site
@@ -46,31 +50,21 @@ async function pubHandler(req, res) {
       const form = new multiparty.Form();
       form.parse(req, (err, fields, files) => {
         if (err) {
-          res.writeHead(500, { "Content-Type": "text/plain" });
-          res.write(err);
-          res.end();
+          res.status(500).send(err);
           return;
         }
         const compiledContent = compileContent(fields);
-        console.log({ compiledContent });
-        res.writeHead(200, { "Content-Type": "text/plain" });
-        res.write("ok");
-        res.end();
+        res.status(200).send("ok");
         return;
       });
     } else {
       const compiledContent = compileContent(req.body);
-      console.log({ compiledContent });
-      res.writeHead(200, { "Content-Type": "text/plain" });
-      res.write("ok");
-      res.end();
+      res.status(200).send("ok");
     }
   } catch (e) {
     console.log("Error fetching token info");
     console.error(e);
-    res.writeHead(400, { "Content-Type": "text/plain" });
-    res.write("BAD REQUEST");
-    res.end();
+    res.status(400).send("BAD REQUEST");
   }
 }
 
