@@ -86,7 +86,7 @@ async function publishToGH(res, fields, application) {
       "/" +
       application.repo +
       "/" +
-      applation.branch +
+      application.branch +
       "\n"
   );
   const publisher = new GitHubPublisher(
