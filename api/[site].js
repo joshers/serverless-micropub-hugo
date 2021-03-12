@@ -10,7 +10,7 @@ const config = require("../config.json");
 
 async function pubHandler(req, res) {
   if (req.method === "GET") {
-    res.status(200).send("ok");
+    res.send("ok");
     return;
   }
   const { site } = req.query;
@@ -18,7 +18,6 @@ async function pubHandler(req, res) {
     (configuredSite) => Object.keys(configuredSite)[0] === site
   )[site];
   const contentType = req.headers["content-type"];
-  console.log({ contentType, body: req.body, query: req.query });
   const authorizationHeader = req.headers["authorization"];
   const token =
     (authorizationHeader && authorizationHeader.split(" ")[1]) ||
@@ -80,15 +79,6 @@ function matchScope(scope) {
 async function publishToGH(res, fields, application) {
   const compiledContent = compileContent(fields);
   const publishPath = getPublishPath(fields);
-  console.log(
-    "Found--> " +
-      config.ghUser +
-      "/" +
-      application.repo +
-      "/" +
-      application.branch +
-      "\n"
-  );
   const publisher = new GitHubPublisher(
     process.env.GITHUB_TOKEN,
     config.ghUser,
@@ -99,7 +89,7 @@ async function publishToGH(res, fields, application) {
     message: "Micropub auto publish",
   });
   if (result) {
-    res.status(200).send("ok");
+    res.send("ok");
     return;
   } else {
     res.status(400).send("Could not add file to GH");

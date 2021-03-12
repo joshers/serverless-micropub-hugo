@@ -7,7 +7,7 @@
         "homepage": "https://teukka.tech",
         "appName": "teukka.tech micropub",
         "repo": "dank",
-        "branch": "micropub"
+        "branch": "master"
       }
     }
   ]
