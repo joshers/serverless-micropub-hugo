@@ -7,35 +7,39 @@ const respondUnauthorized = require("../respondUnauthorized");
 const config = require("../config.json");
 
 async function pubHandler(req, res) {
+  const { site } = req.query;
+  const application = config.sites.find(
+    (configuredSite) => Object.keys(configuredSite)[0] === site
+  );
   const contentType = req.headers["content-type"];
-  console.log({ contentType, body: req.body });
+  console.log({ contentType, body: req.body, query: req.query });
   const authorizationHeader = req.headers["authorization"];
   const token =
     (authorizationHeader && authorizationHeader.split(" ")[1]) ||
     req.body.access_token;
   if (!token) {
-    respondUnauthorized("No Token");
+    respondUnauthorized(res, "No Token");
     return;
   }
   try {
     const { data, status } = await axios.get(config.tokenValidationEndpoint, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": `${config.appName}`,
+        "User-Agent": `${application.appName}`,
         Authorization: `Bearer ${token}`,
       },
     });
     if (status !== 200) {
-      respondUnauthorized(data);
+      respondUnauthorized(res, data);
       return;
     }
     const { me, scope } = qs.parse(data);
     if (!me || !scope) {
-      respondUnauthorized("No scope and no `me` param");
+      respondUnauthorized(res, "No scope and no `me` param");
       return;
     }
-    if (me !== config.homepage && !matchScope(scope)) {
-      respondUnauthorized("Invalid scope or mismatched `me` param");
+    if (me !== application.homepage && !matchScope(scope)) {
+      respondUnauthorized(res, "Invalid scope or mismatched `me` param");
       return;
     }
     if (contentType.includes("multipart/form-data")) {
@@ -62,7 +66,8 @@ async function pubHandler(req, res) {
       res.end();
     }
   } catch (e) {
-    console.log(e.data);
+    console.log("Error fetching token info");
+    console.error(e);
     res.writeHead(400, { "Content-Type": "text/plain" });
     res.write("BAD REQUEST");
     res.end();
@@ -74,7 +79,7 @@ function matchScope(scope) {
   const requiredScope = ["create", "update", "media"];
   const parsedScope = scope.split(" ");
   parsedScope.forEach((scope) => {
-    if (!requiredScope.find(scope)) matched = false;
+    if (!requiredScope.find((required) => required === scope)) matched = false;
   });
   return matched;
 }

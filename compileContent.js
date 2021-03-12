@@ -7,7 +7,7 @@ tags: ${tagifyCategories(fields["category[]"])}
 slug: "${fields.slug || generateSlug(fields)}"
 ${renderOptionalFields({ ...fields })}
 ---
-${fields.content}
+${fields.content || fields.body}
   `;
 }
 
@@ -36,6 +36,7 @@ function tagifyCategories(categories) {
 function renderOptionalFields(fields) {
   const knownFields = [
     "date",
+    "access_token",
     "category[]",
     "name",
     "slug",

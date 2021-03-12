@@ -1,5 +1,11 @@
 {
   "tokenValidationEndpoint": "https://tokens.indieauth.com/token",
-  "appName": "teukka.tech micropub",
-  "homepage": "https://teukka.tech"
+  "sites": [
+    {
+      "main": {
+        "homepage": "https://teukka.tech",
+        "appName": "teukka.tech micropub"
+      }
+    }
+  ]
 }
