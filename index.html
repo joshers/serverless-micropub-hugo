@@ -6,23 +6,24 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
       />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.png" />
-    <link rel="icon" sizes="192x192" href="%PUBILC_URL%/favicon.png" />
-
-    <!-- APPLE STUFF -->
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="Cool blog, bro" />
-    <link rel="apple-touch-icon" href="ico.png" />
-    <meta rel="apple-touch-startup-image" href="ico.png" />
-    <meta name="apple-moble-web-app-status-bar-style" content="black" />
-
-    <meta property="og:type" content="website" />
+    <style>
+      pre {
+        font-family: monospace;
+      }
+    </style>
     <meta name="robots" content="index, follow">
     <title>Micropub</title>
   </head>
   <body>
-    <h1>Hello, there</h1>
+    <h1>Serverless micropub</h1>
+    <h2>Getting Started</h2>
+    <p>You can clone the <a href="https://github.com/jamestthompson3/micropub-serverless">repo</a> and adjust the following settings in <pre>config.json</pre>:</p>
+    <ul>
+      <li>ghUser --> your github username</li>
+      <li>sites ---> the site specific configuration</li>
+    </ul>
+    <p><strong>NOTE: </strong>Your micropub endpoint will be available at <pre>/api/[site]</pre>. This means that if you take the configuration as is, the URL will be <pre>/api/main</pre></p>
+    <p>You will also need to add a personal access token as an environment variable named <pre>GH_TOKEN</pre></p>
   </body>
 </html>
 
