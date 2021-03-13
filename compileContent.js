@@ -6,8 +6,9 @@ title: "${fields.title || fields.name || ""}"
 tags: ${tagifyCategories(fields["category[]"])}
 slug: "${fields.slug || generateSlug(fields)}"
 ${renderOptionalFields({ ...fields })}
+${fields.title && 'kind:"update"'}
 ---
-${fields.content || fields.body}
+${trimContent(fields.content || fields.body)}
   `;
 }
 
@@ -50,6 +51,23 @@ function renderOptionalFields(fields) {
   return Object.entries(fields)
     .map(([key, value]) => `${key}: "${value || ""}"`)
     .join("\n");
+}
+
+function trimContent(content) {
+  if (typeof content === "string") {
+    return content.trim();
+  }
+  if (Array.isArray(content)) {
+    return content.map(trimContent);
+  }
+  if (typeof content === "object") {
+    const newContent = {};
+    Object.entries(content).forEach(([key, entry]) => {
+      newContent[key] = trimContent(entry);
+    });
+    return newContent;
+  }
+  return "";
 }
 
 module.exports = { compileContent, generateSlug };
