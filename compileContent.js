@@ -4,8 +4,8 @@ date: "${fields.date || new Date().toISOString()}"
 title: "${fields.title || fields.name || ""}"
 tags: ${tagifyCategories(fields["category[]"])}
 slug: "${fields.slug || generateSlug(fields)}"
+${fields.title ? 'kind:"post"' : 'kind: "update"'}
 ${renderOptionalFields({ ...fields })}
-${fields.title ? 'kind:"post"' : 'kind:"update"'}
 ---
 ${trimContent(fields.content || fields.body)}`;
 }
