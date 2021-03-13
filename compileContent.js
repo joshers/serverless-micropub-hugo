@@ -1,15 +1,13 @@
 function compileContent(fields) {
-  return `
----
+  return `---
 date: "${fields.date || new Date().toISOString()}"
 title: "${fields.title || fields.name || ""}"
 tags: ${tagifyCategories(fields["category[]"])}
 slug: "${fields.slug || generateSlug(fields)}"
 ${renderOptionalFields({ ...fields })}
-${fields.title && 'kind:"update"'}
+${fields.title ? 'kind:"post"' : 'kind:"update"'}
 ---
-${trimContent(fields.content || fields.body)}
-  `;
+${trimContent(fields.content || fields.body)}`;
 }
 
 function generateSlug(fields) {
