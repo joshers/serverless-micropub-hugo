@@ -1,4 +1,4 @@
-import { generateSlug } from "./compileContent.js";
+const { generateSlug } = require("./compileContent.js");
 
 function getPublishPath(fields) {
   const slug = generateSlug(fields);

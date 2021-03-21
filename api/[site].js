@@ -34,7 +34,7 @@ async function pubHandler(req, res) {
     );
     if (contentType.includes("multipart/form-data")) {
       const form = new multiparty.Form();
-      form.parse(req, async (err, fields, files) => {
+      form.parse(req, async (err, fields, _files) => {
         if (err) {
           res.status(500).send(err);
           return;
@@ -53,15 +53,6 @@ async function pubHandler(req, res) {
   }
 }
 
-function matchScope(scope) {
-  let matched = true;
-  const requiredScope = ["create", "update", "media"];
-  const parsedScope = scope.split(" ");
-  parsedScope.forEach((scope) => {
-    if (!requiredScope.find((required) => required === scope)) matched = false;
-  });
-  return matched;
-}
 
 async function publishToGH(fields, application) {
   const compiledContent = compileContent(fields);

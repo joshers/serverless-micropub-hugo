@@ -10,6 +10,7 @@
     "multiparty": "^4.2.2"
   },
   "devDependencies": {
+    "eslint": "^7.22.0",
     "vercel": "^21.3.3"
   }
 }

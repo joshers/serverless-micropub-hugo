@@ -1,7 +1,8 @@
 const qs = require("querystring");
+const respondUnauthorized = require("../respondUnauthorized");
 const axios = require("axios");
 
-export async function validateAccessToken(
+async function validateAccessToken(
   res,
   tokenValidationEndpoint,
   token,
@@ -27,6 +28,16 @@ export async function validateAccessToken(
     respondUnauthorized(res, "Invalid scope or mismatched `me` param");
     return;
   }
+}
+
+function matchScope(scope) {
+  let matched = true;
+  const requiredScope = ["create", "update", "media"];
+  const parsedScope = scope.split(" ");
+  parsedScope.forEach((scope) => {
+    if (!requiredScope.find((required) => required === scope)) matched = false;
+  });
+  return matched;
 }
 
 module.exports = validateAccessToken;
