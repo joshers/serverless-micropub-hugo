@@ -1,5 +1,5 @@
 const qs = require("querystring");
-const respondUnauthorized = require("../respondUnauthorized");
+const respondUnauthorized = require("./respondUnauthorized");
 const axios = require("axios");
 
 async function validateAccessToken(
