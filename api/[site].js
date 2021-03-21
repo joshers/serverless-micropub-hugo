@@ -1,8 +1,7 @@
 const multiparty = require("multiparty");
-const axios = require("axios");
-const qs = require("querystring");
 const { compileContent } = require("../compileContent");
 const respondUnauthorized = require("../respondUnauthorized");
+const validateAccessToken = require("../validateAccessToken");
 const getPublishPath = require("../getPublishPath");
 const GitHubPublisher = require("github-publish");
 
@@ -27,26 +26,12 @@ async function pubHandler(req, res) {
     return;
   }
   try {
-    const { data, status } = await axios.get(config.tokenValidationEndpoint, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        "User-Agent": `${application.appName}`,
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (status !== 200) {
-      respondUnauthorized(res, data);
-      return;
-    }
-    const { me, scope } = qs.parse(data);
-    if (!me || !scope) {
-      respondUnauthorized(res, "No scope and no `me` param");
-      return;
-    }
-    if (me !== application.homepage && !matchScope(scope)) {
-      respondUnauthorized(res, "Invalid scope or mismatched `me` param");
-      return;
-    }
+    await validateAccessToken(
+      res,
+      config.tokenValidationEndpoint,
+      token,
+      application.appName
+    );
     if (contentType.includes("multipart/form-data")) {
       const form = new multiparty.Form();
       form.parse(req, (err, fields, files) => {
@@ -54,10 +39,12 @@ async function pubHandler(req, res) {
           res.status(500).send(err);
           return;
         }
-        publishToGH(res, fields, application);
+        const error = await publishToGH(fields, application);
+        error ? res.status(400).send(error) : res.send("ok")
       });
     } else {
-      publishToGH(res, req.body, application);
+      const error = await publishToGH(req.body, application);
+      error ? res.status(400).send(error) : res.send("ok")
     }
   } catch (e) {
     console.log("Error fetching token info");
@@ -76,7 +63,7 @@ function matchScope(scope) {
   return matched;
 }
 
-async function publishToGH(res, fields, application) {
+async function publishToGH(fields, application) {
   const compiledContent = compileContent(fields);
   const publishPath = getPublishPath(fields);
   const publisher = new GitHubPublisher(
@@ -88,12 +75,7 @@ async function publishToGH(res, fields, application) {
   const result = await publisher.publish(publishPath, compiledContent, {
     message: "🤖 Micropub bot auto publish",
   });
-  if (result) {
-    res.send("ok");
-    return;
-  } else {
-    res.status(400).send("Could not add file to GH");
-  }
+  return result ? "Could not ad file to GH" : undefined
 }
 
 module.exports = pubHandler;

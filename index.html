@@ -5,26 +5,43 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
-      />
+    />
     <style>
-      pre {
-        font-family: monospace;
+      code {
+        background-color: #c4c4c4;
+        padding: 3px;
+        border-radius: 3px;
+      }
+      li {
+        margin: 3px 0px;
       }
     </style>
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="index, follow" />
     <title>Micropub</title>
   </head>
   <body>
     <h1>Serverless micropub</h1>
     <p>Provides a serverless function for micropub -> hugo markdown</p>
     <h2>Getting Started</h2>
-    <p>You can clone the <a href="https://github.com/jamestthompson3/micropub-serverless-hugo">repo</a> and adjust the following settings in <pre>config.json</pre>:</p>
+    <p>
+      You can clone the
+      <a href="https://github.com/jamestthompson3/micropub-serverless-hugo"
+        >repo</a
+      >
+      and adjust the following settings in <code>config.json</code>
+    </p>
     <ul>
-      <li>ghUser --> your github username</li>
-      <li>sites --> the site specific configuration</li>
+      <li><code>ghUser</code> your github username</li>
+      <li><code>sites</code> the site specific configuration</li>
     </ul>
-    <p><strong>NOTE: </strong>Your micropub endpoint will be available at <pre>/api/[site]</pre>. This means that if you take the configuration as is, the URL will be <pre>/api/main</pre></p>
-    <p>You will also need to add a personal access token as an environment variable named <pre>GH_TOKEN</pre></p>
+    <p>
+      <strong>NOTE: </strong>Your micropub endpoint will be available at
+      <code>/api/[site]</code>. This means that if you take the configuration as
+      is, the URL will be <code>/api/main</code>
+    </p>
+    <p>
+      You will also need to add a personal access token as an environment
+      variable named <code>GH_TOKEN</code>
+    </p>
   </body>
 </html>
-
