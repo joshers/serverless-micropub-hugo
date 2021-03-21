@@ -34,7 +34,7 @@ async function pubHandler(req, res) {
     );
     if (contentType.includes("multipart/form-data")) {
       const form = new multiparty.Form();
-      form.parse(req, (err, fields, files) => {
+      form.parse(req, async (err, fields, files) => {
         if (err) {
           res.status(500).send(err);
           return;
