@@ -5,12 +5,12 @@ export async function validateAccessToken(
   res,
   tokenValidationEndpoint,
   token,
-  appName
+  application
 ) {
   const { data, status } = await axios.get(tokenValidationEndpoint, {
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
-      "User-Agent": `${appName}`,
+      "User-Agent": `${application.appName}`,
       Authorization: `Bearer ${token}`,
     },
   });

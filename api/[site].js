@@ -30,7 +30,7 @@ async function pubHandler(req, res) {
       res,
       config.tokenValidationEndpoint,
       token,
-      application.appName
+      application
     );
     if (contentType.includes("multipart/form-data")) {
       const form = new multiparty.Form();
