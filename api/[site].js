@@ -75,6 +75,7 @@ async function publishToGH(fields, application) {
   const result = await publisher.publish(publishPath, compiledContent, {
     message: "🤖 Micropub bot auto publish",
   });
+  console.log({result})
   return result ? "Could not ad file to GH" : undefined
 }
 
