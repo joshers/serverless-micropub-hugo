@@ -39,12 +39,16 @@ async function pubHandler(req, res) {
           res.status(500).send(err);
           return;
         }
-        const error = await publishToGH(fields, application);
-        error ? res.status(400).send(error) : res.send("ok")
+        const result = await publishToGH(fields, application);
+        !result
+          ? res.status(400).send("Could not add file to GH")
+          : res.send("ok");
       });
     } else {
-      const error = await publishToGH(req.body, application);
-      error ? res.status(400).send(error) : res.send("ok")
+      const result = await publishToGH(req.body, application);
+      !result
+        ? res.status(400).send("Could not add file to GH")
+        : res.send("ok");
     }
   } catch (e) {
     console.log("Error fetching token info");
@@ -52,7 +56,6 @@ async function pubHandler(req, res) {
     res.status(400).send("BAD REQUEST");
   }
 }
-
 
 async function publishToGH(fields, application) {
   const compiledContent = compileContent(fields);
@@ -66,8 +69,7 @@ async function publishToGH(fields, application) {
   const result = await publisher.publish(publishPath, compiledContent, {
     message: "🤖 Micropub bot auto publish",
   });
-  console.log({result})
-  return result ? "Could not ad file to GH" : undefined
+  return result;
 }
 
 module.exports = pubHandler;
