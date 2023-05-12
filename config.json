@@ -1,12 +1,12 @@
 {
   "tokenValidationEndpoint": "https://tokens.indieauth.com/token",
-  "ghUser": "jamestthompson3",
+  "ghUser": "joshers",
   "sites": [
     {
       "main": {
-        "homepage": "https://teukka.tech",
-        "appName": "teukka.tech micropub",
-        "repo": "dank",
+        "homepage": "https://dfx.is",
+        "appName": "dfx.is micropub",
+        "repo": "dfx-is",
         "branch": "master"
       }
     }
