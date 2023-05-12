@@ -7,7 +7,7 @@
         "homepage": "https://dfx.is/",
         "appName": "dfx.is micropub",
         "repo": "dfx-is",
-        "branch": "master"
+        "branch": "main"
       }
     }
   ]
